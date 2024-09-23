@@ -19,20 +19,17 @@ func main() {
 
 	cfg, err := config.Load()
 	if err != nil {
-		logger.ErrorContext(ctx, "Config", slog.String("Message", err.Error()))
-		return
+		panic(err)
 
 	}
 
 	conn, err := sqlx.ConnectContext(ctx, "pgx", cfg.DB)
 	if err != nil {
-		logger.ErrorContext(ctx, "Database", slog.String("Message", err.Error()))
-		return
+		panic(err)
 	}
 	defer func() {
 		if err := conn.Close(); err != nil {
-			logger.ErrorContext(ctx, "Database", slog.String("Message", err.Error()))
-			return
+			panic(err)
 		}
 	}()
 
@@ -45,8 +42,7 @@ func main() {
 		logger.InfoContext(ctx, "HTTP server listening...")
 
 		if err := app.Run(ctx); err != nil {
-			logger.ErrorContext(ctx, "App", slog.String("Message", err.Error()))
-			return
+			panic(err)
 		}
 
 		logger.InfoContext(ctx, "Stopped serving connections.")
