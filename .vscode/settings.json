@@ -1,0 +1,38 @@
+{
+	"files.exclude": {},
+	"task.autoDetect": "off",
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": true,
+	"editor.insertSpaces": true,
+	"editor.detectIndentation": true,
+	"[jsonc]": {
+		"editor.tabSize": 2,
+	},
+	"[go]": {
+		"editor.tabSize": 4,
+		"editor.rulers": [
+			{
+				"column": 120,
+				"color": "#bbbbbb"
+			}
+		],
+	},
+	"files.insertFinalNewline": true,
+	"files.trimTrailingWhitespace": true,
+	"gopls": {
+		"ui.semanticTokens": true,
+		"ui.noSemanticString": true,
+		"ui.noSemanticNumber": true,
+	},
+	"go.delveConfig": {
+		"debugAdapter": "dlv-dap",
+	},
+	"go.formatTool": "gofmt",
+	"go.inlayHints.assignVariableTypes": false,
+	"go.inlayHints.compositeLiteralFields": true,
+	"go.inlayHints.compositeLiteralTypes": true,
+	"go.inlayHints.constantValues": true,
+	"go.inlayHints.functionTypeParameters": true,
+	"go.inlayHints.parameterNames": false,
+	"go.inlayHints.rangeVariableTypes": true
+}

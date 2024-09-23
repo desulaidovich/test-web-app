@@ -1,0 +1,37 @@
+name: auth-app
+services:
+  golang:
+    container_name: application
+    build:
+      context: .
+      dockerfile: Dockerfile.multistage
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-tony}:${POSTGRES_PASSWORD:-ynot}@postgres:5432/${POSTGRES_DB:-auth}?sslmode=disable}
+      SECRET_KEY: ${SECRET_KEY:-tony}
+    networks:
+      - backend
+
+  postgres:
+    container_name: postgresql
+    image: postgres
+    restart: unless-stopped
+    networks:
+      - backend
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-tony}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ynot}
+      POSTGRES_DB: ${POSTGRES_DB:-auth}
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+
+networks:
+  backend:
+
+volumes:
+    postgres:

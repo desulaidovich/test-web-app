@@ -1,0 +1,93 @@
+{
+	"version": "2.0.0",
+	"type": "shell",
+	"inputs": [
+		{
+			"id": "HOST",
+			"description": "Database host",
+			"default": "localhost",
+			"type": "promptString"
+		},
+		{
+			"id": "PORT",
+			"description": "Database port",
+			"default": "5432",
+			"type": "promptString"
+		},
+		{
+			"id": "DATABASE",
+			"description": "Database name",
+			"default": "auth",
+			"type": "promptString"
+		},
+		{
+			"id": "USER",
+			"description": "Database user name",
+			"default": "tony",
+			"type": "promptString"
+		},
+		{
+			"id": "PASSWORD",
+			"password": true,
+			"description": "Database user password",
+			"default": "ynot",
+			"type": "promptString"
+		},
+		{
+			"id": "GOOSE",
+			"description": "Select goose command",
+			"options": [
+				"up",
+				"down"
+			],
+			"type": "pickString",
+		},
+	],
+	"presentation": {
+		"echo": false,
+		"focus": true,
+		"panel": "new",
+		"showReuseMessage": false,
+		"clear": true
+	},
+	"options": {
+		"env": {
+			"DATABASE_URL": "postgresql://${input:USER}:${input:PASSWORD}@${input:HOST}:${input:PORT}/${input:DATABASE}?sslmode=disable",
+			"SECRET_KEY": "DAJIO@soidajo1o1jjalsa-1--3-osofsdflsdlfsdlf"
+		}
+	},
+	"tasks": [
+		{
+			"label": "Run:\t\tApp",
+			"detail": "Run application",
+			"icon": {
+				"id": "run"
+			},
+			"command": "go",
+			"args": [
+				"run",
+				"${workspaceFolder}/cmd/app/main.go"
+			],
+			"group": "build",
+		},
+		{
+			"label": "Goose:\tDatabase",
+			"detail": "Migrate to database 🪿",
+			"icon": {
+				"id": "database"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}/migrations"
+			},
+			"command": [
+				"goose",
+			],
+			"args": [
+				"postgres",
+				"postgresql://${input:USER}:${input:PASSWORD}@${input:HOST}:${input:PORT}/${input:DATABASE}?sslmode=disable",
+				"${input:GOOSE}"
+			],
+			"group": "build",
+		},
+	]
+}
